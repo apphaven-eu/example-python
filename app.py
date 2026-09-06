@@ -35,7 +35,7 @@ app.mount("/static", StaticFiles(directory=BASE_DIR / "static"), name="static")
 @app.get("/")
 def index(request: Request):
     with app.state.pool.connection() as conn:
-        todos = conn.execute("SELECT id, title FROM todos ORDER BY id DESC").fetchall()
+        todos = conn.execute("SELECT id, title FROM todos ORDER BY created_at DESC, id DESC").fetchall()
     return templates.TemplateResponse(request, "index.html", {"todos": todos})
 
 
