@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>FastAPI Todo | AppHaven</title>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+<main>
+  <h1>FastAPI Todo</h1>
+  <p>A shared task list, built with FastAPI and PostgreSQL.</p>
+
+  <form class="add" method="post" action="/add">
+    <input type="text" name="title" aria-label="New task" placeholder="Add an item"
+           autocomplete="off" maxlength="200" required>
+    <button type="submit">Add</button>
+  </form>
+
+  {% if todos %}
+  <ul>
+    {% for todo in todos %}
+    <li>
+      <span>{{ todo.title }}</span>
+      <form method="post" action="/delete">
+        <input type="hidden" name="id" value="{{ todo.id }}">
+        <button class="link" type="submit">Delete</button>
+      </form>
+    </li>
+    {% endfor %}
+  </ul>
+  {% else %}
+  <p class="empty">No items yet.</p>
+  {% endif %}
+
+  <footer>
+    <p>Deploy your own on <a href="https://apphaven.eu">AppHaven</a> ·
+      <a href="https://github.com/apphaven-eu/example-python">Source code</a> ·
+      <a href="https://docs.apphaven.eu/getting-started">Deployment guide</a></p>
+  </footer>
+</main>
+</body>
+</html>

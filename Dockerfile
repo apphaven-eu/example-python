@@ -10,7 +10,9 @@ WORKDIR /app
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-COPY app.py .
+COPY app.py schema.sql ./
+COPY templates ./templates
+COPY static ./static
 
 RUN useradd --no-create-home --uid 10001 app
 USER app

@@ -8,6 +8,8 @@ The repository includes the application, a `Dockerfile`, and an `apphaven.yaml` 
 ## Stack
 
 - FastAPI 0.141 on uvicorn, server-rendered HTML, no front-end build step
+- Jinja2 template at `templates/index.html`, which escapes values by default; stylesheet
+  served from `static/` and schema read from `schema.sql` at startup
 - psycopg 3 with `psycopg_pool.ConnectionPool`, plain SQL, no ORM
 - PostgreSQL 17 (managed by AppHaven in production)
 - Container base image `python:3.13-slim`, runs as a non-root user
@@ -78,8 +80,9 @@ Open the app, add a task, refresh, and delete it. The manifest waits for Postgre
 before starting the web container. `/healthz` is a process liveness endpoint; it does not query
 the database. The container's healthcheck runs internally, so it needs no public-path exemption.
 
-The schema uses `CREATE TABLE IF NOT EXISTS` for the initial table. When extending the app,
-use versioned migrations for changes to existing columns and tables.
+The schema lives in `schema.sql` and is applied at startup. It uses `CREATE TABLE IF NOT
+EXISTS` for the initial table, so repeated starts are safe. When extending the app, use
+versioned migrations for changes to existing columns and tables.
 
 ## AppHaven
 
